@@ -38,12 +38,15 @@ app.get('/api/menu', (req, res) => {
 // Get menu items by menu ID
 
 app.get(`/api/menu/:id`, (req, res) => {
-  db.many(`SELECT * FROM item WHERE menu_id = $1`, [req.params.id])
-    .then(menu => res.json(menu))
-    .catch(
-      error => res.boom.notFound(`Sorry, that menu is not available`)
-      // res.json(Boom.notFound(`Sorry, that item is not available`))
-    );
+  db.many(
+    `SELECT item.id, item.name AS name, item.price, menu.name AS menu FROM menu, item WHERE item.menu_id = $1`,
+    [req.params.id]
+  )
+    .then(menu => {
+      // const menu = Object.assign({}, { menu_name: data[0].menu }, data);
+      res.json(menu);
+    })
+    .catch(error => res.boom.notFound(`Sorry, that menu is not available`));
 });
 
 app.listen(app.get('port'), () => {
