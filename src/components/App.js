@@ -1,6 +1,6 @@
 import React from 'react';
 import Menu from './Menu';
-// import Order from './Order';
+import Order from './Order';
 // import Basket from './Basket';
 
 import '../styles/app.scss';
@@ -13,14 +13,14 @@ class App extends React.Component {
       menu: [],
       isOrdering: false,
       currentOrderItem: {},
-      orderBasket: {},
+      orderBasket: [],
       hasOrdered: false,
       orderRef: 0
     };
 
     this.handleMenuItemClick = this.handleMenuItemClick.bind(this);
-    // this.addOrderToBasket = this.addOrderToBasket.bind(this);
-    // this.closeOrder = this.closeOrder.bind(this);
+    this.closeOrder = this.closeOrder.bind(this);
+    this.addOrderToBasket = this.addOrderToBasket.bind(this);
     // this.handleBasketChange = this.handleBasketChange.bind(this);
     // this.removeFromBasket = this.removeFromBasket.bind(this);
     // this.submitOrder = this.submitOrder.bind(this);
@@ -45,7 +45,7 @@ class App extends React.Component {
   }
 
   handleMenuItemClick(id) {
-    return fetch(`/api/menu/${id}`)
+    return fetch(`/api/item/${id}`)
       .then(response => response.json())
       .then(body =>
         this.setState({
@@ -59,30 +59,30 @@ class App extends React.Component {
       });
   }
 
-  // addOrderToBasket(name, quantity, price) {
-  //   const { orderBasket, currentOrderItem } = this.state;
-  //   let newOrderBasket = {};
-  //   const order = { id: currentOrderItem.id, name, quantity, price };
-  //   if (orderBasket.hasOwnProperty(currentOrderItem.id)) {
-  //     const updatedOrder = (orderBasket[currentOrderItem.id].quantity +=
-  //       order.quantity);
-  //     newOrderBasket = Object.assign({}, orderBasket, updatedOrder);
-  //   } else {
-  //     newOrderBasket = Object.assign({}, orderBasket, {
-  //       [currentOrderItem.id]: order
-  //     });
-  //   }
-  //   this.setState({
-  //     isOrdering: false,
-  //     orderBasket: newOrderBasket
-  //   });
-  // }
+  closeOrder() {
+    this.setState({
+      isOrdering: false
+    });
+  }
 
-  // closeOrder() {
-  //   this.setState({
-  //     isOrdering: false
-  //   });
-  // }
+  addOrderToBasket(name, quantity, price) {
+    const { orderBasket, currentOrderItem } = this.state;
+    let newOrderBasket = {};
+    const order = { id: currentOrderItem.id, name, quantity, price };
+    if (orderBasket.hasOwnProperty(currentOrderItem.id)) {
+      const updatedOrder = (orderBasket[currentOrderItem.id].quantity +=
+        order.quantity);
+      newOrderBasket = Object.assign({}, orderBasket, updatedOrder);
+    } else {
+      newOrderBasket = Object.assign({}, orderBasket, {
+        [currentOrderItem.id]: order
+      });
+    }
+    this.setState({
+      isOrdering: false,
+      orderBasket: newOrderBasket
+    });
+  }
 
   // handleBasketChange(e, id) {
   //   const { orderBasket } = this.state;
@@ -160,7 +160,7 @@ class App extends React.Component {
         ) : (
           <p>{menu.error}</p>
         )}
-        {/* {isOrdering && (
+        {isOrdering && (
           <Order
             key={currentOrderItem.id}
             currentOrderItem={currentOrderItem}
@@ -168,15 +168,15 @@ class App extends React.Component {
             closeOrder={this.closeOrder}
           />
         )}
-        {hasBasket && (
+        {/* {hasBasket && (
           <Basket
             basket={orderBasket}
             submitOrder={this.submitOrder}
             handleBasketChange={this.handleBasketChange}
             removeFromBasket={this.removeFromBasket}
           />
-        )}
-        {hasOrdered && (
+        )} */}
+        {/* {hasOrdered && (
           <div className="acknowledge__wrapper">
             <div className="acknowledge">
               <h3>

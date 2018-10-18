@@ -28,7 +28,9 @@ app.get('/', (req, res) => {
 // Get all menu items
 
 app.get('/api/menu', (req, res) => {
-  db.any(`SELECT * FROM item`)
+  db.any(
+    `SELECT item.id, item.name AS name, item.price, menu.name AS menu FROM menu, item`
+  )
     .then(menu => res.json(menu))
     .catch(error => {
       res.json(Boom.notFound("Sorry, there's no menu available"));
@@ -47,6 +49,16 @@ app.get(`/api/menu/:id`, (req, res) => {
       res.json(menu);
     })
     .catch(error => res.boom.notFound(`Sorry, that menu is not available`));
+});
+
+// Get item by ID
+
+app.get('/api/item/:id', (req, res) => {
+  db.one(`SELECT * FROM item WHERE id = $1`, [req.params.id])
+    .then(item => res.json(item))
+    .catch(error => {
+      res.boom.notFound(`Sorry, that item is not available`);
+    });
 });
 
 app.listen(app.get('port'), () => {
