@@ -23,8 +23,10 @@ CREATE TABLE basket (
 
 CREATE TABLE item_order (
   id SERIAL PRIMARY KEY,
+  item_id INT NOT NULL,
   quantity INT NOT NULL,
   basket_id INT NOT NULL,
+  FOREIGN KEY (item_id) REFERENCES item (id),
   FOREIGN KEY (basket_id) REFERENCES basket (id)
 );
 

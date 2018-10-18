@@ -61,63 +61,63 @@ class Order extends React.Component {
     const { quantity } = this.state;
 
     return (
-      // <CSSTransitionGroup
-      //   transitionName="modal"
-      //   transitionAppear={true}
-      //   transitionAppearTimeout={500}
-      //   transitionEnter={false}
-      //   transitionLeave={false}
-      // >
-      <div className="order__wrapper">
-        <div className="order">
-          <h3 className="order__item">{name}</h3>
-          <p className="order__description">{description}</p>
+      <CSSTransitionGroup
+        transitionName="modal"
+        transitionAppear={true}
+        transitionAppearTimeout={500}
+        transitionEnter={false}
+        transitionLeave={false}
+      >
+        <div className="order__wrapper">
+          <div className="order">
+            <h3 className="order__item">{name}</h3>
+            <p className="order__description">{description}</p>
 
-          <div className="order__meta">
-            <button
-              onClick={() => this.decreaseOrderAmount()}
-              className="btn btn__decrease"
-              name="decrease"
-            >
-              <i className="fas fa-minus-circle" />
-            </button>
+            <div className="order__meta">
+              <button
+                onClick={() => this.decreaseOrderAmount()}
+                className="btn btn__decrease"
+                name="decrease"
+              >
+                <i className="fas fa-minus-circle" />
+              </button>
 
-            <span className="amount__count">{quantity}</span>
+              <span className="amount__count">{quantity}</span>
 
-            <button
-              onClick={e => this.increaseOrderAmount(e)}
-              className="btn btn__increase"
-              name="increase"
-            >
-              <i className="fas fa-plus-circle" />
-            </button>
+              <button
+                onClick={e => this.increaseOrderAmount(e)}
+                className="btn btn__increase"
+                name="increase"
+              >
+                <i className="fas fa-plus-circle" />
+              </button>
 
-            <span className="order__cost">
-              {' '}
-              £{(quantity * parseInt(price, 10)).toFixed(2)}
-            </span>
-          </div>
-          {/* Order action controls */}
-          <div className="order__action">
-            <button
-              onClick={() => closeOrder()}
-              className="btn btn__cancel"
-              name="cancel"
-            >
-              Cancel
-            </button>
-            <button
-              className="btn btn__submit"
-              onClick={() => addOrderToBasket(name, quantity, price)}
-              type="submit"
-              name="submit"
-            >
-              Add to order
-            </button>
+              <span className="order__cost">
+                {' '}
+                £{(quantity * parseInt(price, 10)).toFixed(2)}
+              </span>
+            </div>
+            {/* Order action controls */}
+            <div className="order__action">
+              <button
+                onClick={() => closeOrder()}
+                className="btn btn__cancel"
+                name="cancel"
+              >
+                Cancel
+              </button>
+              <button
+                className="btn btn__submit"
+                onClick={() => addOrderToBasket(name, quantity, price)}
+                type="submit"
+                name="submit"
+              >
+                Add to order
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      // </CSSTransitionGroup>
+      </CSSTransitionGroup>
     );
   }
 }

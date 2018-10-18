@@ -1,7 +1,7 @@
 import React from 'react';
 import Menu from './Menu';
 import Order from './Order';
-// import Basket from './Basket';
+import Basket from './Basket';
 
 import '../styles/app.scss';
 
@@ -21,9 +21,9 @@ class App extends React.Component {
     this.handleMenuItemClick = this.handleMenuItemClick.bind(this);
     this.closeOrder = this.closeOrder.bind(this);
     this.addOrderToBasket = this.addOrderToBasket.bind(this);
-    // this.handleBasketChange = this.handleBasketChange.bind(this);
-    // this.removeFromBasket = this.removeFromBasket.bind(this);
-    // this.submitOrder = this.submitOrder.bind(this);
+    this.handleBasketChange = this.handleBasketChange.bind(this);
+    this.removeFromBasket = this.removeFromBasket.bind(this);
+    this.submitOrder = this.submitOrder.bind(this);
     // this.exit = this.exit.bind(this);
   }
 
@@ -84,35 +84,35 @@ class App extends React.Component {
     });
   }
 
-  // handleBasketChange(e, id) {
-  //   const { orderBasket } = this.state;
-  //   const orderToUpdate = orderBasket[id];
-  //   let updatedOrder = {};
+  handleBasketChange(e, id) {
+    const { orderBasket } = this.state;
+    const orderToUpdate = orderBasket[id];
+    let updatedOrder = {};
 
-  //   switch (e.target.name) {
-  //     case 'increase':
-  //       updatedOrder = orderToUpdate.quantity++;
-  //       break;
-  //     case 'decrease':
-  //       if (orderBasket[id].quantity > 1) {
-  //         updatedOrder = orderToUpdate.quantity--;
-  //       }
-  //       break;
-  //   }
+    switch (e.target.name) {
+      case 'increase':
+        updatedOrder = orderToUpdate.quantity++;
+        break;
+      case 'decrease':
+        if (orderBasket[id].quantity > 1) {
+          updatedOrder = orderToUpdate.quantity--;
+        }
+        break;
+    }
 
-  //   const updatedBasket = Object.assign({}, orderBasket, updatedOrder);
-  //   this.setState({
-  //     orderBasket: updatedBasket
-  //   });
-  // }
+    const updatedBasket = Object.assign({}, orderBasket, updatedOrder);
+    this.setState({
+      orderBasket: updatedBasket
+    });
+  }
 
-  // removeFromBasket(id) {
-  //   const updatedBasket = this.state.orderBasket;
-  //   delete updatedBasket[id];
-  //   this.setState({
-  //     orderBasket: updatedBasket
-  //   });
-  // }
+  removeFromBasket(id) {
+    const updatedBasket = this.state.orderBasket;
+    delete updatedBasket[id];
+    this.setState({
+      orderBasket: updatedBasket
+    });
+  }
 
   // submitOrder() {
   //   fetch('/api/orders', {
@@ -168,14 +168,14 @@ class App extends React.Component {
             closeOrder={this.closeOrder}
           />
         )}
-        {/* {hasBasket && (
+        {hasBasket && (
           <Basket
             basket={orderBasket}
             submitOrder={this.submitOrder}
             handleBasketChange={this.handleBasketChange}
             removeFromBasket={this.removeFromBasket}
           />
-        )} */}
+        )}
         {/* {hasOrdered && (
           <div className="acknowledge__wrapper">
             <div className="acknowledge">
