@@ -127,6 +127,25 @@ app.post('/api/orders', (req, res) => {
     );
 });
 
+// Most popular menu items
+
+app.get('/api/popular', (req, res) => {
+  db.any(
+    `SELECT item.name, SUM(item_order.quantity)
+FROM item, item_order
+WHERE item.id = item_order.item_id
+GROUP BY item.name
+ORDER BY sum DESC LIMIT 5`
+  )
+    .then(result => {
+      res.json(result);
+    })
+    .catch(error => {
+      res.boom.notFound(`There are no popular items on the menu`);
+    });
+});
+
+// all orders
 app.get('/api/orders', (req, res) => {
   db.any(`SELECT * FROM *`);
 });
