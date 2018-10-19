@@ -61,6 +61,30 @@ app.get('/api/item/:id', (req, res) => {
     });
 });
 
+// Add user basket
+
+app.post('/api/orders', (req, res) => {
+  db.one(`INSERT INTO basket (id) VALUES(DEFAULT) RETURNING id`)
+    .then(result => {
+      const { items } = req.body;
+      const basketId = result.id;
+      return Promise.all(
+        items.map(item => {
+          return db.none(
+            `INSERT INTO item_order (item_id, quantity, basket_id)
+        VALUES ($1, $2, $3)`,
+            [item.id, item.quantity, basketId]
+          );
+        })
+      ).then(() => basketId);
+    })
+    .then(basketId => res.json({ basketId: basketId }))
+    .catch(error =>
+      // res.boom.badRequest(`Sorry, we could not process your order`)
+      res.json({ error: error.message })
+    );
+});
+
 app.listen(app.get('port'), () => {
   console.log('Listening on port 8080');
 });

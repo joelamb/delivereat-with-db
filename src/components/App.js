@@ -114,26 +114,28 @@ class App extends React.Component {
     });
   }
 
-  // submitOrder() {
-  //   fetch('/api/orders', {
-  //     method: 'POST',
-  //     body: JSON.stringify(this.state.orderBasket),
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     }
-  //   })
-  //     .then(response => {
-  //       return response.json();
-  //     })
-  //     .then(data => {
-  //       this.setState({
-  //         currentOrderItem: {},
-  //         orderBasket: {},
-  //         hasOrdered: true,
-  //         orderRef: Object.keys(data)[0]
-  //       });
-  //     });
-  // }
+  submitOrder() {
+    const orders = Object.values(this.state.orderBasket);
+
+    fetch('/api/orders', {
+      method: 'POST',
+      body: JSON.stringify({ items: orders }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        this.setState({
+          currentOrderItem: {},
+          orderBasket: {},
+          hasOrdered: true,
+          orderRef: data.basketId
+        });
+      });
+  }
 
   // exit() {
   //   this.setState({

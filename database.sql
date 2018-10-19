@@ -1,7 +1,7 @@
-DROP TABLE item;
-DROP TABLE menu;
 DROP TABLE item_order;
 DROP TABLE basket;
+DROP TABLE item;
+DROP TABLE menu;
 
 CREATE TABLE menu (
 id SERIAL PRIMARY KEY,
@@ -44,65 +44,3 @@ INSERT INTO item VALUES (7, 'Avocado, Egg & Cheese', 'With onions, sun-blushed t
 INSERT INTO item VALUES (8, 'Bacon & Egg', 'With rocket & Virgin Mary ketchup', 3.5, 2);
 INSERT INTO item VALUES (9, 'Sausage, Bacon & Egg', 'With red onion chutney', 5.5, 2);
 ALTER SEQUENCE item_id_seq RESTART WITH 10 INCREMENT BY 1;
-
-/*
-    10: {
-      id: 10,
-      name: 'Eggs Benedict',
-      price: 9.5,
-      category: 'eggs',
-      description: 'With ham hock and butternut squash',
-      options: ['muffin', 'butternut squash']
-    },
-    11: {
-      id: 11,
-      name: 'Eggs Florentine',
-      price: 9.5,
-      category: 'eggs',
-      description: 'With spinach and a muffin',
-      extras: ['smoked salmon'],
-      extrasPrice: 4
-    },
-    12: {
-      id: 12,
-      name: 'The All American',
-      price: 11.75,
-      category: 'pancakes',
-      description:
-        'Pancakes, eggs, sausage, bacon, fried potatoes & maple syrup'
-    },
-    13: {
-      id: 13,
-      name: 'Beauregarde Pancakes',
-      price: 9.5,
-      category: 'pancakes',
-      description:
-        'Gluten free blueberry pancakes, warm blueberry & lemon compote & maple syrup'
-    },
-    14: {
-      id: 14,
-      name: 'Oatmilk Porridge',
-      price: 3,
-      category: 'cereal',
-      description: 'Rolled oats, slow-cooked in oat milk',
-      extras: [
-        'mixed berries',
-        'pumpkin seeds',
-        'crushed pecans',
-        'honey',
-        'maple syrup'
-      ],
-      extrasPrice: 2
-    },
-    15: {
-      id: 15,
-      name: 'Huevos Al Joe',
-      price: 10.5,
-      category: 'eggs',
-      description:
-        'Poached eggs, peppers, avocado, chillies & hollandaise on English muffin with a choice of fried chicken or chorizo',
-      extras: ['fried chicken', 'chorizo'],
-      extrasPrice: 0
-    }
-
-*/
