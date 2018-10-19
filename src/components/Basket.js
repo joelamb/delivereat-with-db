@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import BasketItem from './BasketItem';
 import cx from 'classnames';
 
@@ -99,14 +99,6 @@ class Basket extends React.Component {
             </span>
           </p>
           <form onSubmit={e => this.onFormSubmit(e)}>
-            {/* <label name="phone">
-              Get a WhatsApp message when your order’s on its way{' '}
-            </label>
-            <input
-              type="text"
-              name="phone"
-              placeholder="Enter your phone number"
-            /> */}
             <label htmlFor="phone">Phone:</label>
             <input
               onChange={this.handleChange}

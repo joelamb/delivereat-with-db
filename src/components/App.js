@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Menu from './Menu';
 import Order from './Order';
 import Basket from './Basket';
 
 import '../styles/app.scss';
 
-class App extends React.Component {
+class App extends Component {
   constructor() {
     super();
 

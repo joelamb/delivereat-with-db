@@ -1,20 +1,19 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { CSSTransitionGroup } from 'react-transition-group';
+import Button from './Button';
 
 import '../styles/order.scss';
 
-class Order extends React.Component {
+class Order extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       quantity: 1
-      // extras: []
     };
 
     this.increaseOrderAmount = this.increaseOrderAmount.bind(this);
     this.decreaseOrderAmount = this.decreaseOrderAmount.bind(this);
-    // this.handleCheckbox = this.handleCheckbox.bind(this);
   }
 
   increaseOrderAmount() {
@@ -30,30 +29,6 @@ class Order extends React.Component {
       });
     }
   }
-
-  //TODO: match the selected checkbox to the extras stored in state
-
-  // handleCheckbox(addOn) {
-  //   if (!this.state.extras.includes(addOn)) {
-  //     const updatedExtras = this.state.extras.concat(addOn);
-  //     this.setState(
-  //       {
-  //         extras: updatedExtras
-  //       },
-  //       () => {
-  //         console.log(this.state.extras.indexOf(addOn.extra));
-  //       }
-  //     );
-  //   } else {
-  //     console.log(this.state.extras.indexOf(addOn.extra));
-  //     const updatedExtras = this.state.extras.filter(item => {
-  //       return item.extra != addOn.extra;
-  //     });
-  //     this.setState({
-  //       extras: updatedExtras
-  //     });
-  //   }
-  // }
 
   render() {
     const { currentOrderItem, addOrderToBasket, closeOrder } = this.props;
@@ -74,23 +49,21 @@ class Order extends React.Component {
             <p className="order__description">{description}</p>
 
             <div className="order__meta">
-              <button
+              <Button
                 onClick={() => this.decreaseOrderAmount()}
                 className="btn btn__decrease"
                 name="decrease"
-              >
-                <i className="fas fa-minus-circle" />
-              </button>
+                icon="minus"
+              />
 
               <span className="amount__count">{quantity}</span>
 
-              <button
+              <Button
                 onClick={e => this.increaseOrderAmount(e)}
                 className="btn btn__increase"
                 name="increase"
-              >
-                <i className="fas fa-plus-circle" />
-              </button>
+                icon="plus"
+              />
 
               <span className="order__cost">
                 {' '}

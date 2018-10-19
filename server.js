@@ -147,7 +147,21 @@ ORDER BY sum DESC LIMIT 5`
 
 // all orders
 app.get('/api/orders', (req, res) => {
-  db.any(`SELECT * FROM *`);
+  db.any(`SELECT * FROM `);
+});
+
+app.get('/api/orders/:id', (req, res) => {
+  db.any(
+    `SELECT item.name, item_order.basket_id
+FROM item, item_order
+WHERE item.id = item_order.item_id
+AND item_order.basket_id=$1`,
+    [req.params.id]
+  )
+    .then(result => res.json(result))
+    .catch(error =>
+      res.boom.notFound(`Sorry, no order with that reference exists`)
+    );
 });
 
 app.listen(app.get('port'), () => {
