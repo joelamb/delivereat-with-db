@@ -85,6 +85,8 @@ app.post('/api/orders', (req, res) => {
     );
 });
 
+app.get('/api/orders');
+
 app.listen(app.get('port'), () => {
   console.log('Listening on port 8080');
 });

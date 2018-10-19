@@ -137,11 +137,11 @@ class App extends React.Component {
       });
   }
 
-  // exit() {
-  //   this.setState({
-  //     hasOrdered: false
-  //   });
-  // }
+  exit() {
+    this.setState({
+      hasOrdered: false
+    });
+  }
 
   render() {
     const {
@@ -178,7 +178,7 @@ class App extends React.Component {
             removeFromBasket={this.removeFromBasket}
           />
         )}
-        {/* {hasOrdered && (
+        {hasOrdered && (
           <div className="acknowledge__wrapper">
             <div className="acknowledge">
               <h3>
@@ -191,7 +191,7 @@ class App extends React.Component {
               </button>
             </div>
           </div>
-        )} */}
+        )}
       </div>
     );
   }
