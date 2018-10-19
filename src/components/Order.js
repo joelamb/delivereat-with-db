@@ -36,14 +36,14 @@ class Order extends Component {
     const { quantity } = this.state;
 
     return (
-      <CSSTransitionGroup
-        transitionName="modal"
-        transitionAppear={true}
-        transitionAppearTimeout={500}
-        transitionEnter={false}
-        transitionLeave={false}
-      >
-        <div className="order__wrapper">
+      <div className="order__wrapper">
+        <CSSTransitionGroup
+          transitionName="modal"
+          transitionAppear={true}
+          transitionAppearTimeout={500}
+          transitionEnter={false}
+          transitionLeave={false}
+        >
           <div className="order">
             <h3 className="order__item">{name}</h3>
             <p className="order__description">{description}</p>
@@ -72,25 +72,25 @@ class Order extends Component {
             </div>
             {/* Order action controls */}
             <div className="order__action">
-              <button
+              <Button
                 onClick={() => closeOrder()}
                 className="btn btn__cancel"
                 name="cancel"
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
                 className="btn btn__submit"
                 onClick={() => addOrderToBasket(name, quantity, price)}
                 type="submit"
                 name="submit"
               >
                 Add to order
-              </button>
+              </Button>
             </div>
           </div>
-        </div>
-      </CSSTransitionGroup>
+        </CSSTransitionGroup>
+      </div>
     );
   }
 }

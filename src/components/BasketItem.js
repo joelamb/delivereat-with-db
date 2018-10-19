@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const BasketItem = ({ orderItem, handleBasketChange, removeFromBasket }) => {
   const { id, name, price, quantity } = orderItem;
@@ -32,5 +33,12 @@ const BasketItem = ({ orderItem, handleBasketChange, removeFromBasket }) => {
       </span>
     </li>
   );
+};
+
+BasketItem.propTypes = {
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  quantity: PropTypes.number.isRequired
 };
 export default BasketItem;

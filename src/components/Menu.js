@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import MenuItem from './MenuItem';
+
 import '../styles/menu.scss';
 
 const Menu = ({ menu, handleMenuItemClick }) => {
@@ -36,6 +38,11 @@ const Menu = ({ menu, handleMenuItemClick }) => {
       </dl>
     </div>
   );
+};
+
+Menu.propTypes = {
+  menu: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleMenuItemClick: PropTypes.func.isRequired
 };
 
 export default Menu;

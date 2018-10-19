@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import BasketItem from './BasketItem';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 
 import '../styles/basket.scss';
 
-class Basket extends React.Component {
+class Basket extends Component {
   constructor(props) {
     super(props);
 
@@ -119,5 +120,12 @@ class Basket extends React.Component {
     );
   }
 }
+
+Basket.propTypes = {
+  basket: PropTypes.object.isRequired,
+  submitOrder: PropTypes.func.isRequired,
+  handleBasketChange: PropTypes.func.isRequired,
+  removeFromBasket: PropTypes.func.isRequired
+};
 
 export default Basket;

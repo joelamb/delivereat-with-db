@@ -24,12 +24,8 @@ class App extends Component {
     this.handleBasketChange = this.handleBasketChange.bind(this);
     this.removeFromBasket = this.removeFromBasket.bind(this);
     this.submitOrder = this.submitOrder.bind(this);
-    // this.exit = this.exit.bind(this);
+    this.exit = this.exit.bind(this);
   }
-
-  // React code is running in the browser
-
-  // create a fetch to a relative path eg. fetch("/api/menu") not "localhost:8080/api/menu" to the internal api from the endpoints defined in server.js  eg /menu  /order  etc
 
   componentDidMount() {
     fetch('/api/menu')
@@ -125,7 +121,11 @@ class App extends Component {
       }
     })
       .then(response => {
-        return response.json();
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error(`Order response code ${response.status}`);
+        }
       })
       .then(data => {
         this.setState({
@@ -134,6 +134,9 @@ class App extends Component {
           hasOrdered: true,
           orderRef: data.basketId
         });
+      })
+      .catch(error => {
+        // handle the error
       });
   }
 
@@ -149,7 +152,8 @@ class App extends Component {
       currentOrderItem,
       isOrdering,
       orderBasket,
-      hasOrdered
+      hasOrdered,
+      orderRef
     } = this.state;
 
     const hasBasket = Object.keys(orderBasket).length > 0;
@@ -183,8 +187,7 @@ class App extends Component {
             <div className="acknowledge">
               <h3>
                 {' '}
-                Thank you for your order (REF: {this.state.orderRef}) Enjoy your
-                breakfast!
+                Thank you for your order (REF: {orderRef}) Enjoy your breakfast!
               </h3>
               <button onClick={() => this.exit()} className="btn btn__submit">
                 Close

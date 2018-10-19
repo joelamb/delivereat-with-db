@@ -27,6 +27,7 @@
     "hbs": "^4.0.1",
     "jest": "^22.3.0",
     "pg-promise": "^8.5.0",
+    "prop-types": "^15.6.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-transition-group": "^1.2.1",
