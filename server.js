@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+const twilio = require('twilio');
 const pgp = require('pg-promise')();
 const boom = require('express-boom');
 const express = require('express');
@@ -19,6 +20,22 @@ app.use(boom());
 app.set('port', process.env.PORT || 8080);
 app.use('/static', express.static('static'));
 app.set('view engine', 'hbs');
+
+const sendNotification = number => {
+  const accountSid = process.env.TWILIO_ACC_SID;
+  const authToken = process.env.TWILIO_AUTH;
+  const twilio = require('twilio');
+  const client = new twilio(accountSid, authToken);
+
+  client.messages
+    .create({
+      body: "Your breakfast is on it's way",
+      from: process.env.TWILIO_WHATSAPP_NUMBER,
+      to: number
+    })
+    .then(message => console.log(message.sid))
+    .done();
+};
 
 // Call index to load all external resources from /static/
 app.get('/', (req, res) => {
@@ -78,10 +95,12 @@ app.post('/api/orders', (req, res) => {
         })
       ).then(() => basketId);
     })
-    .then(basketId => res.json({ basketId: basketId }))
+    .then(basketId => {
+      sendNotification(process.env.PHONE_NUMBER);
+      res.json({ basketId: basketId });
+    })
     .catch(error =>
-      // res.boom.badRequest(`Sorry, we could not process your order`)
-      res.json({ error: error.message })
+      res.boom.badRequest(`Sorry, we could not process your order`)
     );
 });
 
