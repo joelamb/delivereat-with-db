@@ -21,7 +21,9 @@ app.set('port', process.env.PORT || 8080);
 app.use('/static', express.static('static'));
 app.set('view engine', 'hbs');
 
-const sendNotification = number => {
+// WhatsApp notification for order. Free Twilio trail only works with one number.
+
+const sendWhatsApp = number => {
   const accountSid = process.env.TWILIO_ACC_SID;
   const authToken = process.env.TWILIO_AUTH;
   const twilio = require('twilio');
@@ -29,13 +31,31 @@ const sendNotification = number => {
 
   client.messages
     .create({
-      body: "Your breakfast is on it's way",
+      body: "Your breakfast is on it's way.",
       from: process.env.TWILIO_WHATSAPP_NUMBER,
       to: number
     })
     .then(message => console.log(message.sid))
     .done();
 };
+
+// Can't get SMS notifications to work
+// const sendSMS = number => {
+//   const accountSid = process.env.TWILIO_SMS_SID;
+//   const authToken = process.env.TWILIO_AUTH;
+//   const client = require('twilio')(accountSid, authToken);
+
+//   client.messages.create(
+//     {
+//       to: number,
+//       from: process.env.TWILIO_SMS_NUMBER,
+//       body: "Your breakfast is on it's way."
+//     },
+//     function(err, message) {
+//       console.log(message.sid);
+//     }
+//   );
+// };
 
 // Call index to load all external resources from /static/
 app.get('/', (req, res) => {
@@ -46,7 +66,9 @@ app.get('/', (req, res) => {
 
 app.get('/api/menu', (req, res) => {
   db.any(
-    `SELECT item.id, item.name AS name, item.price, menu.name AS menu FROM menu, item`
+    `SELECT item.id, item.name AS name, item.price, menu.name AS menu
+    FROM menu, item
+    WHERE item.menu_id = menu.id`
   )
     .then(menu => res.json(menu))
     .catch(error => {
@@ -56,17 +78,17 @@ app.get('/api/menu', (req, res) => {
 
 // Get menu items by menu ID
 
-app.get(`/api/menu/:id`, (req, res) => {
-  db.many(
-    `SELECT item.id, item.name AS name, item.price, menu.name AS menu FROM menu, item WHERE item.menu_id = $1`,
-    [req.params.id]
-  )
-    .then(menu => {
-      // const menu = Object.assign({}, { menu_name: data[0].menu }, data);
-      res.json(menu);
-    })
-    .catch(error => res.boom.notFound(`Sorry, that menu is not available`));
-});
+// app.get(`/api/menu/:id`, (req, res) => {
+//   db.many(
+//     `SELECT item.id, item.name AS name, item.price, menu.name AS menu FROM menu, item WHERE item.menu_id = $1`,
+//     [req.params.id]
+//   )
+//     .then(menu => {
+//       // const menu = Object.assign({}, { menu_name: data[0].menu }, data);
+//       res.json(menu);
+//     })
+//     .catch(error => res.boom.notFound(`Sorry, that menu is not available`));
+// });
 
 // Get item by ID
 
@@ -96,7 +118,8 @@ app.post('/api/orders', (req, res) => {
       ).then(() => basketId);
     })
     .then(basketId => {
-      sendNotification(process.env.PHONE_NUMBER);
+      //
+      // sendSMS(process.env.PHONE_NUMBER);
       res.json({ basketId: basketId });
     })
     .catch(error =>
@@ -104,7 +127,9 @@ app.post('/api/orders', (req, res) => {
     );
 });
 
-app.get('/api/orders');
+app.get('/api/orders', (req, res) => {
+  db.any(`SELECT * FROM *`);
+});
 
 app.listen(app.get('port'), () => {
   console.log('Listening on port 8080');

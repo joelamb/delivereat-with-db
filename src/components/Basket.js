@@ -9,15 +9,27 @@ class Basket extends React.Component {
     super(props);
 
     this.state = {
-      basketHidden: true
+      basketHidden: true,
+      phone: 0
     };
 
     this.toggleBasketVisible = this.toggleBasketVisible.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   toggleBasketVisible() {
     this.setState({
       basketHidden: !this.state.basketHidden
+    });
+  }
+
+  onFormSubmit(e) {
+    e.preventDefault();
+  }
+
+  handleChange(e) {
+    this.setState({
+      phone: e.target.value
     });
   }
 
@@ -86,6 +98,27 @@ class Basket extends React.Component {
               )}
             </span>
           </p>
+          <form onSubmit={e => this.onFormSubmit(e)}>
+            {/* <label name="phone">
+              Get a WhatsApp message when your order’s on its way{' '}
+            </label>
+            <input
+              type="text"
+              name="phone"
+              placeholder="Enter your phone number"
+            /> */}
+            <label htmlFor="phone">Phone:</label>
+            <input
+              onChange={this.handleChange}
+              type="tel"
+              id="phone"
+              name="phone"
+              placeholder="07956-852381"
+              pattern="[0-9]{5}-[0-9]{6}"
+              required
+            />
+            <span className="validity" />
+          </form>
           <button onClick={() => submitOrder()} className="btn btn__submit">
             Place Order
           </button>

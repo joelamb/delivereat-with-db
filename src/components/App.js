@@ -32,7 +32,7 @@ class App extends React.Component {
   // create a fetch to a relative path eg. fetch("/api/menu") not "localhost:8080/api/menu" to the internal api from the endpoints defined in server.js  eg /menu  /order  etc
 
   componentDidMount() {
-    fetch('/api/menu/1')
+    fetch('/api/menu')
       .then(response => response.json())
       .then(body => {
         this.setState({
