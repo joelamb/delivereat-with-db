@@ -86,7 +86,7 @@ class Order extends Component {
               </Button>
               <Button
                 className="btn btn__submit"
-                onClick={() => addOrderToBasket(name, quantity, price)}
+                onClick={() => addOrderToBasket(name, quantity, price, history)}
                 type="submit"
                 name="submit"
               >

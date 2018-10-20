@@ -12,6 +12,7 @@ class App extends Component {
 
     this.state = {
       menu: [],
+      location: '',
       isOrdering: false,
       currentOrderItem: {},
       orderBasket: [],
@@ -33,13 +34,27 @@ class App extends Component {
       .then(response => response.json())
       .then(body => {
         this.setState({
-          menu: body
+          menu: body,
+          location: location.pathname
         });
       })
       .catch(error => {
         alert(error.message);
       });
   }
+
+  // let previousLocation = this.props.location;
+
+  // componentWillUpdate(nextProps) {
+  //   const { location } = this.props;
+  //   // set previousLocation if props.location is not modal
+  //   if (
+  //     nextProps.history.action !== 'POP' &&
+  //     (!location.state || !location.state.modal)
+  //   ) {
+  //     this.previousLocation = this.props.location;
+  //   }
+  // }
 
   handleMenuItemClick(id) {
     return fetch(`/api/item/${id}`)
@@ -50,8 +65,8 @@ class App extends Component {
         });
         this.setState({
           hasOrdered: false,
-          isOrdering: true,
-          currentOrderItem: item
+          currentOrderItem: item,
+          location: location.pathname
         });
       })
       .catch(error => {
@@ -60,14 +75,15 @@ class App extends Component {
   }
 
   closeOrder(history) {
-    console.log(history);
     history.goBack();
     this.setState({
-      isOrdering: false
+      // isOrdering: false,
+      location: location.pathname
     });
   }
 
-  addOrderToBasket(name, quantity, price) {
+  addOrderToBasket(name, quantity, price, history) {
+    history.goBack();
     const { orderBasket, currentOrderItem } = this.state;
     let newOrderBasket = {};
     const order = { id: currentOrderItem.id, name, quantity, price };
@@ -81,7 +97,7 @@ class App extends Component {
       });
     }
     this.setState({
-      isOrdering: false,
+      location: location.pathname,
       orderBasket: newOrderBasket
     });
   }
@@ -158,7 +174,7 @@ class App extends Component {
     const {
       menu,
       currentOrderItem,
-      isOrdering,
+      location,
       orderBasket,
       hasOrdered,
       orderRef
@@ -175,10 +191,10 @@ class App extends Component {
           ) : (
             <p>{menu.error}</p>
           )}
-          {isOrdering && (
+          {location !== '/' && (
             <Route
               path="/item/:itemId"
-              render={({ history }) => {
+              render={({ match, history }) => {
                 return (
                   <Order
                     key={currentOrderItem.id}

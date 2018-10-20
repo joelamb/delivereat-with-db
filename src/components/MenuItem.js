@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const MenuItem = ({ name, price, id, handleMenuItemClick }) => {
   return (
-    <Link to={`/item/${id}`}>
+    <Link to={{ pathname: `/item/${id}`, state: { modal: true } }}>
       <li className="menu__item" onClick={() => handleMenuItemClick(id)}>
         {name}
         <span className="item__price">£{price.toFixed(2)}</span>
