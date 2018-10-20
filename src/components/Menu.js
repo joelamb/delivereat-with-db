@@ -24,7 +24,7 @@ const Menu = ({ menu, handleMenuItemClick }) => {
                       <MenuItem
                         key={id}
                         name={name}
-                        price={parseInt(price, 10)}
+                        price={parseFloat(price)}
                         id={id}
                         handleMenuItemClick={handleMenuItemClick}
                       />

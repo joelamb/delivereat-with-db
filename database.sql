@@ -1,7 +1,14 @@
-DROP TABLE item_order;
-DROP TABLE basket;
-DROP TABLE item;
-DROP TABLE menu;
+-- DROP DATABASE IF EXISTS delivereat;
+
+-- DROP TABLE IF EXISTS item_order CASCADE;
+-- DROP TABLE IF EXISTS menu CASCADE;
+-- DROP TABLE IF EXISTS item CASCADE;
+-- DROP TABLE IF EXISTS basket CASCADE;
+
+
+CREATE DATABASE delivereat; 
+
+SET TIME ZONE GMT;
 
 CREATE TABLE menu (
 id SERIAL PRIMARY KEY,
@@ -18,7 +25,8 @@ FOREIGN KEY (menu_id) REFERENCES menu (id)
 );
 
 CREATE TABLE basket (
-  id SERIAL PRIMARY KEY
+  id SERIAL PRIMARY KEY,
+  received TIMESTAMP NOT NULL
 );
 
 CREATE TABLE item_order (
@@ -32,7 +40,10 @@ CREATE TABLE item_order (
 
 INSERT INTO menu VALUES (1, 'classics');
 INSERT INTO menu VALUES (2, 'sandwiches');
-ALTER SEQUENCE menu_id_seq RESTART WITH 3 INCREMENT BY 1;
+INSERT INTO menu VALUES (3, 'eggs');
+INSERT INTO menu VALUES (4, 'pancakes');
+INSERT INTO menu VALUES (5, 'cereal');
+ALTER SEQUENCE menu_id_seq RESTART WITH 6 INCREMENT BY 1;
 
 INSERT INTO item VALUES (1, 'The Full Monty', 'Bacon, sausage, black pudding, fried potatoes, mushrooms, beans, tomato, eggs & toast', 10.95, 1);
 INSERT INTO item VALUES (2, 'Butternut Bubble', 'Butternut squash, potato & spinach bubble with mushrooms,asparagus & avocado hollandaise',9.5, 1);
@@ -43,4 +54,10 @@ INSERT INTO item VALUES (6, 'Chorizo Hash', 'Chorizo, peppers, mushrooms, carame
 INSERT INTO item VALUES (7, 'Avocado, Egg & Cheese', 'With onions, sun-blushed tomato & sriracha mayo', 5.5, 2);
 INSERT INTO item VALUES (8, 'Bacon & Egg', 'With rocket & Virgin Mary ketchup', 3.5, 2);
 INSERT INTO item VALUES (9, 'Sausage, Bacon & Egg', 'With red onion chutney', 5.5, 2);
-ALTER SEQUENCE item_id_seq RESTART WITH 10 INCREMENT BY 1;
+INSERT INTO item VALUES (10, 'Eggs Benedict', 'With ham hock and butternut squash', 9.5, 3);
+INSERT INTO item VALUES (11, 'Eggs Florentine', 'With spinach and a muffin', 9.5, 3);
+INSERT INTO item VALUES (12, 'The All American', 'Pancakes, eggs, sausage, bacon, fried potatoes & maple syrup', 11.75, 4);
+INSERT INTO item VALUES (13, 'Beauregarde Pancakes', 'Gluten free blueberry pancakes, warm blueberry & lemon compote & maple syrup', 9.5, 4);
+INSERT INTO item VALUES (14, 'Oatmilk Porridge', 'Rolled oats, slow-cooked in oat milk', 3, 5);
+INSERT INTO item VALUES (15, 'Huevos Al Joe', 'Poached eggs, peppers, avocado, chillies & hollandaise on English muffin with a choice of fried chicken or chorizo', 10.5, 3);
+ALTER SEQUENCE item_id_seq RESTART WITH 16 INCREMENT BY 1;

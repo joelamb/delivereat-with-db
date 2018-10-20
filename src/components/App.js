@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Menu from './Menu';
 import Order from './Order';
 import Basket from './Basket';
@@ -43,19 +44,24 @@ class App extends Component {
   handleMenuItemClick(id) {
     return fetch(`/api/item/${id}`)
       .then(response => response.json())
-      .then(body =>
+      .then(body => {
+        const item = Object.assign({}, body, {
+          price: parseFloat(body.price)
+        });
         this.setState({
           hasOrdered: false,
           isOrdering: true,
-          currentOrderItem: body
-        })
-      )
+          currentOrderItem: item
+        });
+      })
       .catch(error => {
         alert('error');
       });
   }
 
-  closeOrder() {
+  closeOrder(history) {
+    console.log(history);
+    history.goBack();
     this.setState({
       isOrdering: false
     });
@@ -111,7 +117,9 @@ class App extends Component {
   }
 
   submitOrder() {
-    const orders = Object.values(this.state.orderBasket);
+    const orders = Object.values(this.state.orderBasket).map(item => {
+      return { id: item.id, quantity: item.quantity };
+    });
 
     fetch('/api/orders', {
       method: 'POST',
@@ -159,43 +167,54 @@ class App extends Component {
     const hasBasket = Object.keys(orderBasket).length > 0;
 
     return (
-      <div className="page">
-        <h1>Tiffany’s</h1>
-        {menu.length > 0 ? (
-          <Menu menu={menu} handleMenuItemClick={this.handleMenuItemClick} />
-        ) : (
-          <p>{menu.error}</p>
-        )}
-        {isOrdering && (
-          <Order
-            key={currentOrderItem.id}
-            currentOrderItem={currentOrderItem}
-            addOrderToBasket={this.addOrderToBasket}
-            closeOrder={this.closeOrder}
-          />
-        )}
-        {hasBasket && (
-          <Basket
-            basket={orderBasket}
-            submitOrder={this.submitOrder}
-            handleBasketChange={this.handleBasketChange}
-            removeFromBasket={this.removeFromBasket}
-          />
-        )}
-        {hasOrdered && (
-          <div className="acknowledge__wrapper">
-            <div className="acknowledge">
-              <h3>
-                {' '}
-                Thank you for your order (REF: {orderRef}) Enjoy your breakfast!
-              </h3>
-              <button onClick={() => this.exit()} className="btn btn__submit">
-                Close
-              </button>
+      <Router>
+        <div className="page">
+          <h1>Tiffany’s</h1>
+          {menu.length > 0 ? (
+            <Menu menu={menu} handleMenuItemClick={this.handleMenuItemClick} />
+          ) : (
+            <p>{menu.error}</p>
+          )}
+          {isOrdering && (
+            <Route
+              path="/item/:itemId"
+              render={({ history }) => {
+                return (
+                  <Order
+                    key={currentOrderItem.id}
+                    currentOrderItem={currentOrderItem}
+                    addOrderToBasket={this.addOrderToBasket}
+                    closeOrder={this.closeOrder}
+                    history={history}
+                  />
+                );
+              }}
+            />
+          )}
+          {hasBasket && (
+            <Basket
+              basket={orderBasket}
+              submitOrder={this.submitOrder}
+              handleBasketChange={this.handleBasketChange}
+              removeFromBasket={this.removeFromBasket}
+            />
+          )}
+          {hasOrdered && (
+            <div className="acknowledge__wrapper">
+              <div className="acknowledge">
+                <h3>
+                  {' '}
+                  Thank you for your order (REF: {orderRef}) Enjoy your
+                  breakfast!
+                </h3>
+                <button onClick={() => this.exit()} className="btn btn__submit">
+                  Close
+                </button>
+              </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      </Router>
     );
   }
 }

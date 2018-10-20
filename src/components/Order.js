@@ -31,7 +31,12 @@ class Order extends Component {
   }
 
   render() {
-    const { currentOrderItem, addOrderToBasket, closeOrder } = this.props;
+    const {
+      currentOrderItem,
+      addOrderToBasket,
+      closeOrder,
+      history
+    } = this.props;
     const { name, description, price } = currentOrderItem;
     const { quantity } = this.state;
 
@@ -67,13 +72,13 @@ class Order extends Component {
 
               <span className="order__cost">
                 {' '}
-                £{(quantity * parseInt(price, 10)).toFixed(2)}
+                £{(quantity * parseFloat(price)).toFixed(2)}
               </span>
             </div>
             {/* Order action controls */}
             <div className="order__action">
               <Button
-                onClick={() => closeOrder()}
+                onClick={() => closeOrder(history)}
                 className="btn btn__cancel"
                 name="cancel"
               >

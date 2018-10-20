@@ -76,6 +76,22 @@ app.get('/api/menu', (req, res) => {
     });
 });
 
+// Get menu by ID
+
+app.get('/api/menu/:id', (req, res) => {
+  db.any(
+    `SELECT item.id, item.name AS name, item.price, menu.name AS menu
+    FROM menu, item
+    WHERE item.menu_id = menu.id
+    AND menu.id = $1`,
+    [req.params.id]
+  )
+    .then(menu => res.json(menu))
+    .catch(error => {
+      res.json(Boom.notFound('Sorry, that menu is not available'));
+    });
+});
+
 // Get item by ID
 
 app.get('/api/item/:id', (req, res) => {
@@ -86,10 +102,12 @@ app.get('/api/item/:id', (req, res) => {
     });
 });
 
-// Add user basket
+// Add order
 
 app.post('/api/orders', (req, res) => {
-  db.one(`INSERT INTO basket (id) VALUES(DEFAULT) RETURNING id`)
+  db.one(
+    `INSERT INTO basket (id, received) VALUES(DEFAULT, CURRENT_TIMESTAMP) RETURNING id`
+  )
     .then(result => {
       const { items } = req.body;
       const basketId = result.id;
@@ -132,8 +150,15 @@ ORDER BY sum DESC LIMIT 5`
 });
 
 // all orders
+
 app.get('/api/orders', (req, res) => {
-  db.any(`SELECT * FROM `);
+  db.any(
+    `SELECT item_order.quantity, item.name, item_order.basket_id
+FROM item, item_order
+WHERE item.id = item_order.item_id`
+  )
+    .then(result => res.json(result))
+    .catch(error => res.boom.notFound(`Sorry, there are no orders`));
 });
 
 app.get('/api/orders/:id', (req, res) => {

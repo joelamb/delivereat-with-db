@@ -106,8 +106,8 @@ class Basket extends Component {
               type="tel"
               id="phone"
               name="phone"
-              placeholder="07956-852381"
-              pattern="[0-9]{5}-[0-9]{6}"
+              placeholder="07956852381"
+              pattern="[0-9]{11}"
               required
             />
             <span className="validity" />

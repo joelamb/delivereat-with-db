@@ -30,6 +30,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-router-dom": "^4.3.1",
     "react-transition-group": "^1.2.1",
     "twilio": "^3.23.1"
   },

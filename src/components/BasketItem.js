@@ -36,9 +36,11 @@ const BasketItem = ({ orderItem, handleBasketChange, removeFromBasket }) => {
 };
 
 BasketItem.propTypes = {
-  id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  quantity: PropTypes.number.isRequired
+  orderItem: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    quantity: PropTypes.number.isRequired
+  })
 };
 export default BasketItem;
