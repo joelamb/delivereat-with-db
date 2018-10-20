@@ -30,17 +30,50 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch('/api/menu')
-      .then(response => response.json())
-      .then(body => {
-        this.setState({
-          menu: body,
-          location: location.pathname
+    if (location.pathname === '/') {
+      fetch('/api/menu')
+        .then(response => response.json())
+        .then(body => {
+          this.setState({
+            menu: body,
+            location: location.pathname
+          });
+        })
+        .catch(error => {
+          alert(error.message);
         });
-      })
-      .catch(error => {
-        alert(error.message);
-      });
+    } else {
+      const id = parseInt(location.pathname.replace('/item/', ''), 10);
+
+      fetch('/api/menu')
+        .then(response => response.json())
+        .then(body => {
+          this.setState({
+            menu: body,
+            location: location.pathname
+          });
+        })
+        .then(result => {
+          return fetch(`/api/item/${id}`)
+            .then(response => response.json())
+            .then(body => {
+              const item = Object.assign({}, body, {
+                price: parseFloat(body.price)
+              });
+              this.setState({
+                hasOrdered: false,
+                currentOrderItem: item,
+                location: location.pathname
+              });
+            })
+            .catch(error => {
+              alert('error');
+            });
+        })
+        .catch(error => {
+          alert(error.message);
+        });
+    }
   }
 
   // let previousLocation = this.props.location;
@@ -75,15 +108,14 @@ class App extends Component {
   }
 
   closeOrder(history) {
-    history.goBack();
+    history.push('/');
     this.setState({
-      // isOrdering: false,
       location: location.pathname
     });
   }
 
   addOrderToBasket(name, quantity, price, history) {
-    history.goBack();
+    history.push('/');
     const { orderBasket, currentOrderItem } = this.state;
     let newOrderBasket = {};
     const order = { id: currentOrderItem.id, name, quantity, price };

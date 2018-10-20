@@ -62,6 +62,10 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
+app.get('/item/:itemId', (req, res) => {
+  res.render('index');
+});
+
 // Get all menu items
 
 app.get('/api/menu', (req, res) => {
