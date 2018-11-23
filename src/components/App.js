@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Menu from './Menu';
 import Order from './Order';
 import Basket from './Basket';
-
 import '../styles/app.scss';
 
 class App extends Component {
@@ -221,8 +220,8 @@ class App extends Component {
           {menu.length > 0 ? (
             <Menu menu={menu} handleMenuItemClick={this.handleMenuItemClick} />
           ) : (
-            <p>{menu.error}</p>
-          )}
+              <p>{menu.error}</p>
+            )}
           {location !== '/' && (
             <Route
               path="/item/:itemId"
