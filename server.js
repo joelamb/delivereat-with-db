@@ -68,7 +68,7 @@ app.get('/api/menu', (req, res) => {
   )
     .then(menu => res.json(menu))
     .catch(error => {
-      res.json(Boom.notFound("Sorry, there's no menu available"));
+      res.boom.notFound(`Sorry, there's no menu available`);
     });
 });
 
