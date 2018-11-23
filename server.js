@@ -20,6 +20,8 @@ app.use(boom());
 app.use('/static', express.static('static'));
 app.set('view engine', 'hbs');
 
+app.set('port', process.env.PORT || 8080);
+
 // WhatsApp notification for order. Free Twilio trail only works with one number.
 
 // const sendWhatsApp = number => {
@@ -175,15 +177,11 @@ AND item_order.basket_id=$1`,
 });
 
 // Call index to load all external resources from /static/
-app.use((req, res) => {
+
+app.use('/', (req, res) => {
   res.render('index');
 });
 
-// app.get('/item/:itemId', (req, res) => {
-//   res.render('index');
-// });
-
-const port = process.env.PORT || 8080;
-app.listen(port, () => {
-  console.log('Listening on port 8080');
+app.listen(app.get('port'), () => {
+  console.log(`Listening on ${app.get('port')}`);
 });
