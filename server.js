@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-const twilio = require('twilio');
+// const twilio = require('twilio');
 const pgp = require('pg-promise')();
 const boom = require('express-boom');
 const express = require('express');
@@ -17,27 +17,26 @@ const bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
 app.use(boom());
-app.set('port', process.env.PORT || 8080);
 app.use('/static', express.static('static'));
 app.set('view engine', 'hbs');
 
 // WhatsApp notification for order. Free Twilio trail only works with one number.
 
-const sendWhatsApp = number => {
-  const accountSid = process.env.TWILIO_ACC_SID;
-  const authToken = process.env.TWILIO_AUTH;
-  const twilio = require('twilio');
-  const client = new twilio(accountSid, authToken);
+// const sendWhatsApp = number => {
+//   const accountSid = process.env.TWILIO_ACC_SID;
+//   const authToken = process.env.TWILIO_AUTH;
+//   const twilio = require('twilio');
+//   const client = new twilio(accountSid, authToken);
 
-  client.messages
-    .create({
-      body: "Your breakfast is on it's way.",
-      from: process.env.TWILIO_WHATSAPP_NUMBER,
-      to: number
-    })
-    .then(message => console.log(message.sid))
-    .done();
-};
+//   client.messages
+//     .create({
+//       body: "Your breakfast is on it's way.",
+//       from: process.env.TWILIO_WHATSAPP_NUMBER,
+//       to: number
+//     })
+//     .then(message => console.log(message.sid))
+//     .done();
+// };
 
 // Can't get SMS notifications to work
 // const sendSMS = number => {
@@ -57,14 +56,7 @@ const sendWhatsApp = number => {
 //   );
 // };
 
-// Call index to load all external resources from /static/
-app.get('/', (req, res) => {
-  res.render('index');
-});
 
-app.get('/item/:itemId', (req, res) => {
-  res.render('index');
-});
 
 // Get all menu items
 
@@ -135,7 +127,7 @@ app.post('/api/orders', (req, res) => {
     );
 });
 
-// Most popular menu items
+// TODO: Show a most popular menu items
 
 app.get('/api/popular', (req, res) => {
   db.any(
@@ -153,7 +145,7 @@ ORDER BY sum DESC LIMIT 5`
     });
 });
 
-// all orders
+// TODO: Create a /kitchen route and display the orders that have come in
 
 app.get('/api/orders', (req, res) => {
   db.any(
@@ -164,6 +156,9 @@ WHERE item.id = item_order.item_id`
     .then(result => res.json(result))
     .catch(error => res.boom.notFound(`Sorry, there are no orders`));
 });
+
+
+// TODO: Create a /cusomter route and show them a tracking page with the status of their order
 
 app.get('/api/orders/:id', (req, res) => {
   db.any(
@@ -179,6 +174,16 @@ AND item_order.basket_id=$1`,
     );
 });
 
-app.listen(app.get('port'), () => {
+// Call index to load all external resources from /static/
+app.use((req, res) => {
+  res.render('index');
+});
+
+// app.get('/item/:itemId', (req, res) => {
+//   res.render('index');
+// });
+
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
   console.log('Listening on port 8080');
 });

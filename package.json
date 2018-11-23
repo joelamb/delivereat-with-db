@@ -1,5 +1,5 @@
 {
-  "name": "deliveat-with-db",
+  "name": "delivereat-with-db",
   "version": "1.0.0",
   "description": "An app which allows customers to order food online",
   "main": "server.js",
@@ -7,7 +7,9 @@
     "test": "jest",
     "dev": "webpack --mode development",
     "build": "webpack --mode production",
-    "start": "nodemon server.js"
+    "heroku-postbuild": "npm run build",
+    "start": "server.js",
+    "start-dev": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +18,9 @@
       "babel-preset-react",
       "babel-preset-env"
     ]
+  },
+  "engines": {
+    "node": "10.5.0"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
