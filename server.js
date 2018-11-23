@@ -6,7 +6,7 @@ const boom = require('express-boom');
 const express = require('express');
 const app = express();
 const db = pgp({
-  host: 'localhost',
+  host: process.env.DB_HOST,
   port: 5432,
   database: process.env.DB_NAME,
   username: process.env.DB_USERNAME,

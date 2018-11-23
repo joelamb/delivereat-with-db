@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "description": "An app which allows customers to order food online",
   "main": "server.js",
+  "engines": {
+    "node": "10.5.0"
+  },
   "scripts": {
     "test": "jest",
     "dev": "webpack --mode development",
     "build": "webpack --mode production",
     "heroku-postbuild": "npm run build",
-    "start": "server.js",
+    "start": "node server.js",
     "start-dev": "nodemon server.js"
   },
   "author": "",
@@ -18,9 +21,6 @@
       "babel-preset-react",
       "babel-preset-env"
     ]
-  },
-  "engines": {
-    "node": "10.5.0"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
