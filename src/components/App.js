@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Menu from './Menu';
 import Order from './Order';
 import Basket from './Basket';
-import '../styles/app.scss';
+// import '../styles/app.scss';
 
 class App extends Component {
   constructor() {
