@@ -1,6 +1,9 @@
 # Tiffany’s
 ### A database-backed restaurant menu and ordering app.
 ---
+> [View live demo](https://deliver-eat.herokuapp.com/)
+
+--- 
 ### Technologies
 - React
 - Node / Express
