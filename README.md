@@ -28,7 +28,7 @@ DB_PASSWORD=
 
 Menu items and orders are stored in four tables.
 
-![database schema]('static/assets/images/deliver-eat-db-schema.png?raw=true')
+![database schema](static/assets/images/deliver-eat-db-schema.png?raw=true)
 
 ### RESTful API
 `/api/menu` : returns an array of all menu items.  
