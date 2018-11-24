@@ -9,8 +9,8 @@ const db = pgp({
   host: process.env.DB_HOST,
   port: 5432,
   database: process.env.DB_NAME,
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
 });
 
 const bodyParser = require('body-parser');
@@ -69,7 +69,7 @@ app.get('/api/menu', (req, res) => {
     WHERE item.menu_id = menu.id`
   )
     .then(menu => res.json(menu))
-    .catch(error => {
+    .catch(() => {
       res.boom.notFound(`Sorry, there's no menu available`);
     });
 });

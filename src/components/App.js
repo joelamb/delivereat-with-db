@@ -138,7 +138,7 @@ class App extends Component {
     const orderToUpdate = orderBasket[id];
     let updatedOrder = {};
 
-    switch (e.target.name) {
+    switch (e.currentTarget.name) {
       case 'increase':
         updatedOrder = orderToUpdate.quantity++;
         break;
